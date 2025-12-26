@@ -112,13 +112,17 @@ This project is designed for students learning:
 
 ### Quick Start with Docker
 
-1. **Clone the repository**
+1. **Navigate to the project directory**
 ```bash
-cd /Users/rakuma/Documents/AIML/EcommerceMicroService
+cd EcommerceMicroService
 ```
 
 2. **Build and start all services**
 ```bash
+# For newer Docker versions (recommended)
+docker compose up --build
+
+# OR for older Docker versions
 docker-compose up --build
 ```
 
@@ -198,7 +202,7 @@ All variables included:
 - ✅ 45 pre-configured requests
 - ✅ Built-in validation tests
 
-See: `README-POSTMAN.md` for quick import guide
+See: `docs/README-POSTMAN.md` for quick import guide
 
 ### Example Requests (cURL)
 
@@ -242,19 +246,41 @@ curl -X POST http://localhost:8080/api/orders \
   }'
 ```
 
+## 📂 Project Structure
+
+```
+EcommerceMicroService/
+├── README.md                    # This file
+├── docs/                        # 📚 All documentation
+│   ├── GETTING-STARTED.md
+│   ├── API-REFERENCE.md
+│   ├── AWS-DEPLOYMENT.md
+│   └── ... (see docs/README.md)
+├── user-service/               # Authentication service
+├── product-service/            # Product catalog service
+├── order-service/              # Order processing service
+├── api-gateway/                # API Gateway
+├── shared/                     # Database schemas
+└── docker-compose.yml          # Container orchestration
+```
+
+**See [PROJECT-STRUCTURE.md](PROJECT-STRUCTURE.md) for detailed structure.**
+
+---
+
 ## 🔧 Configuration
 
 ### Environment Variables
-See `.env.example` for available configuration options.
+See `env-template.txt` for available configuration options.
 
 ### Service Ports
 - API Gateway: 8080
 - User Service: 8081
 - Product Service: 8082
 - Order Service: 8083
-- User MySQL: 3306
-- Product MySQL: 3307
-- Order MySQL: 3308
+- User MySQL: 3316
+- Product MySQL: 3317
+- Order MySQL: 3318
 
 ## 📊 Monitoring & Health Checks
 
@@ -310,17 +336,53 @@ curl http://localhost:8083/api/orders/health
 ## 🐛 Troubleshooting
 
 **Services not starting?**
-- Check Docker logs: `docker-compose logs -f [service-name]`
+- Check Docker logs: `docker compose logs -f [service-name]`
 - Verify ports are available
 - Ensure MySQL containers are healthy
 
 **Connection errors?**
-- Verify network connectivity: `docker network inspect ecommercemicroservice_ecommerce-network`
+- Verify network connectivity: `docker network ls`
 - Check service URLs in environment variables
 
 **Database issues?**
-- Reset databases: `docker-compose down -v`
-- Rebuild: `docker-compose up --build`
+- Reset databases: `docker compose down -v`
+- Rebuild: `docker compose up --build`
+
+## ☁️ AWS Deployment
+
+This project is **AWS-ready** and can be deployed to:
+- **AWS ECS (Elastic Container Service)** - Recommended for students
+- **AWS EKS (Elastic Kubernetes Service)** - For advanced learning
+- **AWS App Runner** - Simplest option
+- **AWS Fargate** - Serverless containers
+
+### AWS Readiness Features:
+✅ Multi-platform Docker images (AMD64 + ARM64)  
+✅ Environment variable configuration  
+✅ Health check endpoints  
+✅ Optimized Docker builds with .dockerignore  
+✅ Separate databases per service  
+✅ Stateless service design  
+
+**See:** `docs/AWS-DEPLOYMENT.md` for complete deployment guide
+
+---
+
+## 📚 Documentation
+
+All documentation has been organized in the `docs/` folder:
+
+### Quick Links:
+- **[Getting Started Guide](docs/GETTING-STARTED.md)** - Step-by-step tutorial
+- **[Quick Reference](docs/QUICK-REFERENCE.md)** - Command cheat sheet  
+- **[API Reference](docs/API-REFERENCE.md)** - Complete API documentation
+- **[Postman Guide](docs/README-POSTMAN.md)** - API testing with Postman
+- **[Docker Commands](docs/DOCKER-COMMANDS.md)** - Docker reference
+- **[AWS Deployment](docs/AWS-DEPLOYMENT.md)** - Deploy to AWS
+
+**See [docs/README.md](docs/README.md) for complete documentation index.**
+
+---
 
 ## 📚 Next Steps (Phase 3 - Future Enhancement)
 
@@ -329,7 +391,8 @@ curl http://localhost:8083/api/orders/health
 - Add service discovery (Eureka)
 - Implement centralized configuration (Spring Cloud Config)
 - Add distributed tracing (Zipkin/Jaeger)
-- Deploy to AWS (ECS/EKS)
+- Kubernetes manifests for EKS deployment
+- CI/CD pipeline with GitHub Actions
 
 ## 👥 Contributing
 
