@@ -1,0 +1,14 @@
+# Database Configuration
+DB_USER=ecom_user
+DB_PASSWORD=ecom_pass
+
+# Service URLs (for local development)
+USER_SERVICE_URL=http://localhost:8081
+PRODUCT_SERVICE_URL=http://localhost:8082
+ORDER_SERVICE_URL=http://localhost:8083
+API_GATEWAY_URL=http://localhost:8080
+
+# JWT Configuration
+JWT_SECRET=mySecretKeyForJWTTokenGenerationThisShouldBeStrong
+JWT_EXPIRATION=86400000
+

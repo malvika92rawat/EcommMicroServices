@@ -1,0 +1,173 @@
+version: '3.8'
+
+services:
+  # ======================
+  # MySQL Databases
+  # ======================
+  
+  user-mysql:
+    image: mysql:8.0
+    container_name: user-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: user_db
+      MYSQL_USER: ecom_user
+      MYSQL_PASSWORD: ecom_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - user-db-data:/var/lib/mysql
+      - ./shared/database-schemas/user-db-init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - ecommerce-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+      interval: 10s
+
+  product-mysql:
+    image: mysql:8.0
+    container_name: product-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: product_db
+      MYSQL_USER: ecom_user
+      MYSQL_PASSWORD: ecom_pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - product-db-data:/var/lib/mysql
+      - ./shared/database-schemas/product-db-init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - ecommerce-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+      interval: 10s
+
+  order-mysql:
+    image: mysql:8.0
+    container_name: order-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: order_db
+      MYSQL_USER: ecom_user
+      MYSQL_PASSWORD: ecom_pass
+    ports:
+      - "3308:3306"
+    volumes:
+      - order-db-data:/var/lib/mysql
+      - ./shared/database-schemas/order-db-init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - ecommerce-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+      interval: 10s
+
+  # ======================
+  # Microservices
+  # ======================
+
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    container_name: user-service
+    environment:
+      DB_HOST: user-mysql
+      DB_USER: ecom_user
+      DB_PASSWORD: ecom_pass
+      DB_NAME: user_db
+    ports:
+      - "8081:8081"
+    depends_on:
+      user-mysql:
+        condition: service_healthy
+    networks:
+      - ecommerce-network
+    restart: on-failure
+
+  product-service:
+    build:
+      context: ./product-service
+      dockerfile: Dockerfile
+    container_name: product-service
+    environment:
+      DB_HOST: product-mysql
+      DB_USER: ecom_user
+      DB_PASSWORD: ecom_pass
+      DB_NAME: product_db
+    ports:
+      - "8082:8082"
+    depends_on:
+      product-mysql:
+        condition: service_healthy
+    networks:
+      - ecommerce-network
+    restart: on-failure
+
+  order-service:
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile
+    container_name: order-service
+    environment:
+      DB_HOST: order-mysql
+      DB_USER: ecom_user
+      DB_PASSWORD: ecom_pass
+      DB_NAME: order_db
+      PRODUCT_SERVICE_URL: http://product-service:8082
+      USER_SERVICE_URL: http://user-service:8081
+    ports:
+      - "8083:8083"
+    depends_on:
+      order-mysql:
+        condition: service_healthy
+      product-service:
+        condition: service_started
+      user-service:
+        condition: service_started
+    networks:
+      - ecommerce-network
+    restart: on-failure
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    environment:
+      USER_SERVICE_URL: http://user-service:8081
+      PRODUCT_SERVICE_URL: http://product-service:8082
+      ORDER_SERVICE_URL: http://order-service:8083
+    ports:
+      - "8080:8080"
+    depends_on:
+      - user-service
+      - product-service
+      - order-service
+    networks:
+      - ecommerce-network
+    restart: on-failure
+
+# ======================
+# Networks
+# ======================
+
+networks:
+  ecommerce-network:
+    driver: bridge
+
+# ======================
+# Volumes
+# ======================
+
+volumes:
+  user-db-data:
+  product-db-data:
+  order-db-data:
+
