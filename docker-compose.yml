@@ -14,7 +14,7 @@ services:
       MYSQL_USER: ecom_user
       MYSQL_PASSWORD: ecom_pass
     ports:
-      - "3306:3306"
+      - "3316:3306"
     volumes:
       - user-db-data:/var/lib/mysql
       - ./shared/database-schemas/user-db-init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -35,7 +35,7 @@ services:
       MYSQL_USER: ecom_user
       MYSQL_PASSWORD: ecom_pass
     ports:
-      - "3307:3306"
+      - "3317:3306"
     volumes:
       - product-db-data:/var/lib/mysql
       - ./shared/database-schemas/product-db-init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -56,7 +56,7 @@ services:
       MYSQL_USER: ecom_user
       MYSQL_PASSWORD: ecom_pass
     ports:
-      - "3308:3306"
+      - "3318:3306"
     volumes:
       - order-db-data:/var/lib/mysql
       - ./shared/database-schemas/order-db-init.sql:/docker-entrypoint-initdb.d/init.sql
