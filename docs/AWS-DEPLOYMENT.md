@@ -6,12 +6,29 @@ Complete guide for deploying the E-Commerce Microservices to AWS.
 
 ## 🎯 AWS Deployment Options
 
+### ⭐ For AWS Free Tier Users
+
+**See: [AWS Free Tier Deployment Guide](AWS-FREE-TIER-DEPLOYMENT.md)**
+
+**Cost: $0/month** for 12 months using single EC2 t2.micro instance with Docker Compose.
+
+**Perfect for:**
+- Students learning AWS
+- Portfolio projects
+- Low-traffic applications
+
+---
+
+### For Production Deployments
+
 This project can be deployed to AWS using:
 
-1. **AWS ECS (Elastic Container Service)** - Recommended for beginners
+1. **AWS ECS (Elastic Container Service)** - Recommended for production
 2. **AWS EKS (Elastic Kubernetes Service)** - For advanced orchestration
 3. **AWS App Runner** - Simplest, fully managed option
 4. **AWS Fargate** - Serverless containers (with ECS/EKS)
+
+**Note:** Production deployments will incur costs (~$125-145/month)
 
 ---
 

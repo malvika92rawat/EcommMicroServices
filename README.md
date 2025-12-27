@@ -350,10 +350,24 @@ curl http://localhost:8083/api/orders/health
 
 ## ☁️ AWS Deployment
 
+### ⭐ Free Tier Deployment ($0/month)
+
+**Perfect for students with AWS Free Tier!**
+
+Deploy all microservices on a single EC2 t2.micro instance using Docker Compose.
+
+**See:** [`docs/AWS-FREE-TIER-DEPLOYMENT.md`](docs/AWS-FREE-TIER-DEPLOYMENT.md) for step-by-step guide.
+
+**Cost:** $0/month for 12 months ✅
+
+---
+
+### Production Deployment Options
+
 This project is **AWS-ready** and can be deployed to:
-- **AWS ECS (Elastic Container Service)** - Recommended for students
-- **AWS EKS (Elastic Kubernetes Service)** - For advanced learning
-- **AWS App Runner** - Simplest option
+- **AWS ECS (Elastic Container Service)** - For production
+- **AWS EKS (Elastic Kubernetes Service)** - For advanced orchestration
+- **AWS App Runner** - Fully managed
 - **AWS Fargate** - Serverless containers
 
 ### AWS Readiness Features:
@@ -364,7 +378,7 @@ This project is **AWS-ready** and can be deployed to:
 ✅ Separate databases per service  
 ✅ Stateless service design  
 
-**See:** `docs/AWS-DEPLOYMENT.md` for complete deployment guide
+**See:** `docs/AWS-DEPLOYMENT.md` for production deployment guide
 
 ---
 

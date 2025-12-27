@@ -25,8 +25,15 @@ Complete documentation for E-Commerce Microservices Architecture.
 ## 🐋 Docker & Deployment
 
 - **[Docker Commands](DOCKER-COMMANDS.md)** - Complete Docker reference
-- **[AWS Deployment Guide](AWS-DEPLOYMENT.md)** - Deploy to AWS ECS/EKS/App Runner
+- **[AWS Free Tier Deployment](AWS-FREE-TIER-DEPLOYMENT.md)** - ⭐ Deploy for FREE ($0/month)
+- **[AWS Deployment Guide](AWS-DEPLOYMENT.md)** - Production deployment (ECS/EKS)
 - **[Troubleshooting Guide](TROUBLESHOOTING.md)** - Common issues and solutions
+
+---
+
+## 🔐 Security
+
+- **[Security Notes](SECURITY-NOTES.md)** - Security considerations and best practices
 
 ---
 
